@@ -1,0 +1,54 @@
+<form autocomplete="off" [formGroup]="formularioUsuario" #formulario="ngForm" (ngSubmit)="calcular()">
+
+    <div fxLayout="column" fxLayoutGap="10px">
+        <!-- Fecha || euros || moneda || resultado -->
+        <div fxLayoutGap="10px">
+            <!-- fecha -->
+            <mat-form-field appearance="fill" fxFlex="25">
+                <mat-label>Fecha</mat-label>
+                <input matInput [matDatepicker]="picker" [max]="maxDate" (dateChange)="calcular()" formControlName="fecha" />
+                <mat-error *ngIf="formularioUsuario.get('fecha').hasError('required')">
+                    Debes selecionar una fecha!
+                </mat-error>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <!-- euros -->
+            <mat-form-field appearance="fill" fxFlex="25">
+                <mat-label>Euros a convertir</mat-label>
+                <input matInput type="number" (ngModelChange)="calcular()" formControlName="euro" required/>
+                <mat-error *ngIf="formularioUsuario.get('euro').hasError('required')">
+                    Campo obligarotio
+                </mat-error>
+            </mat-form-field>
+
+            <!-- moneda -->
+            <mat-form-field appearance="fill" fxFlex="25">
+                <mat-label>Moneda</mat-label>
+                <mat-select formControlName="moneda" (selectionChange)="calcular()">
+                    <mat-option *ngFor="let moneda of datos" [value]="moneda.id">
+                        {{ moneda.id }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="formularioUsuario.get('moneda').hasError('required')">
+                    Por favor elige una moneda!
+                </mat-error>
+            </mat-form-field>
+
+            <!-- resultado -->
+            <mat-form-field appearance="fill" fxFlex="25">
+                <mat-label>Resultado</mat-label>
+                <input matInput formControlName="resultado" /> <small>{{resultado | number}}</small>
+            </mat-form-field>
+
+        </div>
+    </div>
+    <div>
+        <mat-spinner *ngIf="bandera"></mat-spinner>
+    </div>
+
+    <!-- <div fxLayout="row " fxLayoutAlign="end " fxLayoutGap="10px ">
+        <button mat-flat-button color="primary ">Guardar</button>
+    </div> -->
+</form>
