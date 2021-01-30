@@ -13,9 +13,10 @@ export class FormularioComponent implements OnInit {
   public formularioUsuario: FormGroup;
 
   datos: any[] = [];
-  resultado: number = 0;
-  bandera: boolean = false;
+  resultado = 0;
+  bandera = false;
   maxDate: Date = new Date();
+  dat: any;
 
 
   constructor(private dataService: DataService,
@@ -25,6 +26,7 @@ export class FormularioComponent implements OnInit {
   ngOnInit(): void {
    this.crearFormulario();
    this.mostrar();
+   this.mostrar2();
   }
 
   // tslint:disable-next-line: typedef
@@ -35,8 +37,19 @@ export class FormularioComponent implements OnInit {
       console.log(this.datos);
     }
     );
-
   }
+
+  // tslint:disable-next-line: typedef
+  mostrar2(){
+    this.dataService.getDate()
+    .subscribe((datoss: any) => {
+      console.log(datoss);
+      this.dat = new Date (datoss.date).getFullYear() + ' ' + datoss.base;
+      console.log(this.dat);
+    } );
+  }
+
+
   // tslint:disable-next-line: typedef
   calcular(){
     if (this.formularioUsuario.valid){
@@ -46,8 +59,7 @@ export class FormularioComponent implements OnInit {
       console.log(fecha);
 
       let date = new Date(fecha);
-      let month = (date.getMonth()) + 1;
-      // let dateFull = date.getFullYear() + '-' + date.getMonth() + 1 + '-' + date.getDate();
+      const month = date.getMonth() + 1;
       let dateFull = date.getFullYear() + '-' + month + '-' + date.getDate();
       console.log(dateFull);
 
@@ -70,7 +82,7 @@ export class FormularioComponent implements OnInit {
   public crearFormulario(): void{
     this.formularioUsuario = this.fb.group({
       fecha: [new Date(), [Validators.required]],
-      euro: [null, Validators.required],
+      euro: [null, [Validators.required, Validators.min(1)]],
       moneda: [null, Validators.required],
       resultado: [{value: 0, disabled: true}]
     });

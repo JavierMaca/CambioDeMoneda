@@ -1,6 +1,7 @@
 import { Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { DataRowOutlet } from '@angular/cdk/table';
 
 @Injectable({
   providedIn: 'root'
@@ -15,29 +16,38 @@ export class DataService{
 
    // tslint:disable-next-line: typedef
    getDatos() {
-    const arr: any[] = [];
-    return this.http.get(this.REST_API_CURRENCY + 'latest').pipe(
-      map(response => {
-        // const keys = Object.keys(response.rates);
-        // const values = Object.values(response.rates);
-        let keys = Object.keys(response.rates);
-        let values = Object.values(response.rates);
+    const datosArray: any[] = [];
+    // return this.http.get(this.REST_API_CURRENCY + 'latest')
+    return this.http.get(`${this.REST_API_CURRENCY}latest`)
+    .pipe(map(datos => {
+      const keys = Object.keys(datos.rates);
+      const values = Object.values(datos.rates);
 
-        for (let i = 0; i < keys.length; i++) {
-          // console.log(keys[i], values[i]);
-          arr.push({
-            id : keys[i],
-            value : values[i]
+      for (let i = 0; i < keys.length; i++) {
+        datosArray.push(
+          {
+            key: keys[i],
+            value: values[i]
           });
-        }
-        return arr;
-      })
-    );
+    }
+      return datosArray;
+    })
+  );
+  }
+
+  getDate() {
+    return this.http.get('https://api.exchangeratesapi.io/latest')
+    .pipe(map((dato: any) => ({
+       date: dato.date,
+       base: dato.base
+    })
+    ));
   }
 
   // tslint:disable-next-line: typedef
   getCurrencyConverter(base: string, date: string) {
-    return this.http.get(this.REST_API_CURRENCY + date + '?base=EUR&symbols=' + base);
+    // return this.http.get(this.REST_API_CURRENCY + date + '?base=EUR&symbols=' + base);
+    return this.http.get(`${this.REST_API_CURRENCY}${date}?base=EUR&symbols=${base}`);
   }
 
   } // fin class

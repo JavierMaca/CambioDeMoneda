@@ -19,16 +19,20 @@
                 <mat-label>Euros a convertir</mat-label>
                 <input matInput type="number" (ngModelChange)="calcular()" formControlName="euro" required/>
                 <mat-error *ngIf="formularioUsuario.get('euro').hasError('required')">
-                    Campo obligarotio
+                    Este campo es obligatorio!
+                </mat-error>
+                <mat-error *ngIf="formularioUsuario.get('euro').invalid">
+                    {{formularioUsuario.get('euro').errors | json}}
                 </mat-error>
             </mat-form-field>
 
             <!-- moneda -->
             <mat-form-field appearance="fill" fxFlex="25">
-                <mat-label>Moneda</mat-label>
+                <mat-label>Selecione una moneda</mat-label>
                 <mat-select formControlName="moneda" (selectionChange)="calcular()">
-                    <mat-option *ngFor="let moneda of datos" [value]="moneda.id">
-                        {{ moneda.id }}
+                    <mat-option>*Selecione una opcion*</mat-option>
+                    <mat-option *ngFor="let moneda of datos, let i = index" [value]="moneda.key">
+                        {{ moneda.key }} - {{moneda.value}}
                     </mat-option>
                 </mat-select>
                 <mat-error *ngIf="formularioUsuario.get('moneda').hasError('required')">
@@ -39,9 +43,12 @@
             <!-- resultado -->
             <mat-form-field appearance="fill" fxFlex="25">
                 <mat-label>Resultado</mat-label>
-                <input matInput formControlName="resultado" /> <small>{{resultado | number}}</small>
+                <input matInput formControlName="resultado" [ngModel]="resultado | number" />
             </mat-form-field>
 
+            <div>
+                <pre>fecha:{{dat}}</pre>
+            </div>
         </div>
     </div>
     <div>
