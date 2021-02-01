@@ -68,8 +68,9 @@ export class FormularioComponent implements OnInit {
 
       this.dataService.getCurrencyConverter(moneda, dateFull)
       .subscribe(observer => {
-        let resul = Object.values(observer.rates);
-        this.resultado = euro * parseFloat(resul[0]);
+        const resul = Object.values(observer.rates);
+        // this.resultado = euro * parseFloat(resul[0]);
+        this.resultado = euro * resul[0];
         this.formularioUsuario.get('resultado').setValue(this.resultado);
         this.bandera = false;
         console.log(this.resultado);

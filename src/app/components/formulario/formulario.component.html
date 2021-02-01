@@ -43,12 +43,8 @@
             <!-- resultado -->
             <mat-form-field appearance="fill" fxFlex="25">
                 <mat-label>Resultado</mat-label>
-                <input matInput formControlName="resultado" [ngModel]="resultado | number" />
+                <input matInput formControlName="resultado" [ngModel]="resultado |currency" />
             </mat-form-field>
-
-            <div>
-                <pre>fecha:{{dat}}</pre>
-            </div>
         </div>
     </div>
     <div>

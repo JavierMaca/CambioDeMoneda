@@ -28,11 +28,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 // servicio
 import { DataService } from './services/data.service';
+import { TablaComponent } from './components/tabla/tabla.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FormularioComponent
+    FormularioComponent,
+    TablaComponent
   ],
   imports: [
     BrowserModule,

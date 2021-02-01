@@ -1,4 +1,12 @@
 <div class="container">
-    <H1>FORMULARIO USUARIO</H1>
-    <app-formulario></app-formulario>
+    <div>
+
+        <H1>FORMULARIO DE USUARIO</H1>
+        <app-formulario></app-formulario>
+
+    </div>
+    <div>
+        <h3>{{titleT | uppercase}}</h3>
+        <app-tabla [titleTabla]="titleT"></app-tabla>
+    </div>
 </div>

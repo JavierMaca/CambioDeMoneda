@@ -1,7 +1,6 @@
 import { Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { DataRowOutlet } from '@angular/cdk/table';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +14,11 @@ export class DataService{
   }
 
    // tslint:disable-next-line: typedef
-   getDatos() {
-    const datosArray: any[] = [];
+   getDatos(){
+    const datosArray: DatosModelo[] = [];
     // return this.http.get(this.REST_API_CURRENCY + 'latest')
-    return this.http.get(`${this.REST_API_CURRENCY}latest`)
-    .pipe(map(datos => {
+    return this.http.get<DatosModelo[]>(`${this.REST_API_CURRENCY}latest`)
+    .pipe(map((datos: DatosModelo[]) => {
       const keys = Object.keys(datos.rates);
       const values = Object.values(datos.rates);
 
@@ -35,6 +34,7 @@ export class DataService{
   );
   }
 
+  // tslint:disable-next-line: typedef
   getDate() {
     return this.http.get('https://api.exchangeratesapi.io/latest')
     .pipe(map((dato: any) => ({
@@ -51,3 +51,9 @@ export class DataService{
   }
 
   } // fin class
+
+export interface DatosModelo
+    {
+      key: string;
+      value: number;
+    }
